@@ -165,7 +165,7 @@ local ToggleBtn = Instance.new("TextButton")
 ToggleBtn.Size = UDim2.new(0, 45, 0, 45)
 ToggleBtn.Position = UDim2.new(0, 20, 0, 20)
 ToggleBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-ToggleBtn.Text = "🛡️"
+ToggleBtn.Text = "⭐"
 ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 ToggleBtn.TextSize = 18
 ToggleBtn.Active = true
@@ -302,36 +302,67 @@ AddBtn("3. Teleport Đến Mục Tiêu", function(st)
     end
 end)
 
-AddBtn("4. Spam Tát Hất Văng Toàn Server", function(st)
+local spamSlapActive = false
+AddBtn("4. Spam Tát Hất Văng Toàn Server (Mọi Găng Tay)", function(st)
+    spamSlapActive = st
     task.spawn(function()
-        while st do
-            task.wait(0.03)
-            if not st then break end
+        while spamSlapActive do
+            task.wait(0.01)
+            if not spamSlapActive then break end
             pcall(function()
-                for _, v in ipairs(ReplicatedStorage:GetDescendants()) do
-                    if not st then break end
-                    if v:IsA("RemoteEvent") then
-                        local n = v.Name:lower()
-                        if n:find("slap") or n:find("hit") or n:find("punch") then
+                for _, obj in ipairs(ReplicatedStorage:GetDescendants()) do
+                    if not spamSlapActive then break end
+                    if obj:IsA("RemoteEvent") then
+                        local name = obj.Name:lower()
+                        if name:find("slap") or name:find("hit") or name:find("punch") or name:find("attack") or name:find("ability") or name:find("skill") or name:find("power") then
                             pcall(function()
-                                v:FireServer()
-                                v:FireServer(true)
+                                obj:FireServer()
+                                obj:FireServer(true)
+                                local char = LocalPlayer.Character
+                                local root = char and char:FindFirstChild("HumanoidRootPart")
+                                if root then
+                                    obj:FireServer(root)
+                                end
                                 for _, p in ipairs(Players:GetPlayers()) do
                                     if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-                                        v:FireServer(p.Character.HumanoidRootPart)
+                                        obj:FireServer(p.Character.HumanoidRootPart)
+                                        obj:FireServer(p.Character)
                                     end
                                 end
                             end)
                         end
                     end
                 end
+
+                local bp = LocalPlayer:FindFirstChild("Backpack")
+                if bp then
+                    for _, item in ipairs(bp:GetChildren()) do
+                        if item:IsA("Tool") then
+                            for _, desc in ipairs(item:GetDescendants()) do
+                                if desc:IsA("RemoteEvent") then
+                                    pcall(function()
+                                        desc:FireServer()
+                                        desc:FireServer(true)
+                                        for _, p in ipairs(Players:GetPlayers()) do
+                                            if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                                                desc:FireServer(p.Character.HumanoidRootPart)
+                                            end
+                                        end
+                                    end)
+                                end
+                            end
+                        end
+                    end
+                end
             end)
         end
     end)
+    ShowNotif(st and "[✓] Bật Spam Tát (Mọi Găng Tay)" or "[✗] Tắt Spam Tát")
 end)
 
+
 local antiSlapConn = nil
-AddBtn("5. Kháng Tát (Anti-Slap)", function(st)
+AddBtn("5. Kháng Tát Bàn Thạch (Anti-Slap Siêu Cấp)", function(st)
     if st then
         if antiSlapConn then antiSlapConn:Disconnect() antiSlapConn = nil end
         antiSlapConn = RunService.Stepped:Connect(function()
@@ -339,14 +370,20 @@ AddBtn("5. Kháng Tát (Anti-Slap)", function(st)
                 local char = LocalPlayer.Character
                 local root = char and char:FindFirstChild("HumanoidRootPart")
                 if root then
-                    root.AssemblyLinearVelocity = Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
+                    local vel = root.AssemblyLinearVelocity
+                    if vel.Magnitude > 35 then
+                        root.AssemblyLinearVelocity = Vector3.new(0, vel.Y, 0)
+                    end
                 end
             end)
         end)
+        ShowNotif("[✓] Đã bật Anti-Slap Bàn Thạch!")
     else
         if antiSlapConn then antiSlapConn:Disconnect() antiSlapConn = nil end
+        ShowNotif("[✗] Đã tắt Anti-Slap.")
     end
 end)
+
 
 local SpeedFrame = Instance.new("Frame", Container)
 SpeedFrame.Size = UDim2.new(1, 0, 0, 50)

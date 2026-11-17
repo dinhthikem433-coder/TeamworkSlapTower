@@ -362,7 +362,7 @@ end)
 
 
 local antiSlapConn = nil
-AddBtn("5. Kháng Tát Bàn Thạch (Anti-Slap Siêu Cấp)", function(st)
+AddBtn("5. Kháng Tát Mạnh (Anti-Slap )", function(st)
     if st then
         if antiSlapConn then antiSlapConn:Disconnect() antiSlapConn = nil end
         antiSlapConn = RunService.Stepped:Connect(function()
@@ -371,7 +371,7 @@ AddBtn("5. Kháng Tát Bàn Thạch (Anti-Slap Siêu Cấp)", function(st)
                 local root = char and char:FindFirstChild("HumanoidRootPart")
                 if root then
                     local vel = root.AssemblyLinearVelocity
-                    if vel.Magnitude > 35 then
+                    if vel.Magnitude > 70 then
                         root.AssemblyLinearVelocity = Vector3.new(0, vel.Y, 0)
                     end
                 end
@@ -434,7 +434,7 @@ AddBtn("7. Nhảy Vô Hạn (Inf Jump)", function(st)
         if infJumpConn then infJumpConn:Disconnect() infJumpConn = nil end
     end
 end)
-AddBtn("8. Tát Không Hồi Chiêu (No CD)", function(st)
+AddBtn("8. Tát Không Hồi Chiêu (Đang lỗi)", function(st)
     task.spawn(function()
         while st do
             task.wait(0.01)
@@ -467,7 +467,7 @@ AddBtn("8. Tát Không Hồi Chiêu (No CD)", function(st)
     end)
 end)
 
-AddBtn("9. Load Fly GUI V3 (Scriptblox)", function(st)
+AddBtn("9. Load Fly GUI V3", function(st)
     if st then
         pcall(function()
             loadstring(game:HttpGet("https://scriptblox.com/raw/Universal-Script-FLY-GUI-V3-V4-(MOBILE)-230975"))()
@@ -478,7 +478,7 @@ end)
 
 local espActive = false
 local espObjects = {}
-AddBtn("10. ESP Player (Nhìn Xuyên Tường)", function(st)
+AddBtn("10. ESP Player", function(st)
     espActive = st
     pcall(function()
         if st then
@@ -519,7 +519,7 @@ AddBtn("10. ESP Player (Nhìn Xuyên Tường)", function(st)
 end)
 
 local savedPos = nil
-AddBtn("11A. Lưu Vị Trí Tọa Độ Hiện Tại", function(st)
+AddBtn("11. Lưu Vị Trí Tọa Độ Hiện Tại", function(st)
     pcall(function()
         local char = LocalPlayer.Character
         local root = char and char:FindFirstChild("HumanoidRootPart")
@@ -530,7 +530,7 @@ AddBtn("11A. Lưu Vị Trí Tọa Độ Hiện Tại", function(st)
     end)
 end)
 
-AddBtn("11B. Dịch Chuyển Đến Vị Trí Đã Lưu", function(st)
+AddBtn("11. Dịch Chuyển Đến Vị Trí Đã Lưu", function(st)
     pcall(function()
         if savedPos then
             local char = LocalPlayer.Character
@@ -547,7 +547,7 @@ end)
 
 local GodModeConn = nil
 local HumanoidDiedConn = nil
-AddBtn("12. Bất Tử Chống Sát Thương Admin", function(st)
+AddBtn("12.Farming aura", function(st)
     if st then
         pcall(function()
             local char = LocalPlayer.Character
@@ -619,7 +619,7 @@ AddBtn("13. Tàng Hình Trước Mặt Mọi Người", function(st)
     ShowNotif(st and "[✓] Đã tàng hình!" or "[✗] Đã hiện hình!")
 end)
 
-AddBtn("14A. Kill Mục Tiêu Đã Chọn", function(st)
+AddBtn("14. Kill Mục Tiêu (chưa tốt lắm)", function(st)
     pcall(function()
         local targets = GetTargetPlayers()
         for _, p in ipairs(targets) do
@@ -633,7 +633,7 @@ AddBtn("14A. Kill Mục Tiêu Đã Chọn", function(st)
     end)
 end)
 
-AddBtn("14B. Bring Mục Tiêu Về Chỗ Mình", function(st)
+AddBtn("14. Bring Mục Tiêu (chưa tốt lắm) ", function(st)
     pcall(function()
         local char = LocalPlayer.Character
         local root = char and char:FindFirstChild("HumanoidRootPart")
@@ -652,7 +652,7 @@ AddBtn("14B. Bring Mục Tiêu Về Chỗ Mình", function(st)
 end)
 
 local flingActive = false
-AddBtn("14C. Fling (Quăng Quật Mục Tiêu)", function(st)
+AddBtn("14. Fling", function(st)
     flingActive = st
     task.spawn(function()
         while flingActive do
@@ -677,7 +677,7 @@ AddBtn("14C. Fling (Quăng Quật Mục Tiêu)", function(st)
     ShowNotif(st and "[✓] Đã kích hoạt bão táp Fling mục tiêu!" or "[✗] Đã tắt Fling.")
 end)
 
-AddBtn("15. Anti-AFK (Treo Máy 24/7)", function(st)
+AddBtn("15. Anti-AFK", function(st)
     task.spawn(function()
         while st do
             task.wait(600)
